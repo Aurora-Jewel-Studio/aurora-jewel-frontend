@@ -102,7 +102,7 @@ export default function BespokePage() {
                   Thank you for your interest in Aurora Bespoke. Our lead artisan will review your design requirements and contact you within 2-3 business days to arrange an initial consultation.
                 </p>
                 <Button 
-                  variant="outline" 
+                  variant="secondary" 
                   onClick={() => setStatus("idle")}
                 >
                   Submit Another Request
