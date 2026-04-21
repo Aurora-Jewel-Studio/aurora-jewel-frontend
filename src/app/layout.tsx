@@ -14,8 +14,11 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Aurora Jewel Studio",
-  description: "Premium Bespoke E-Commerce for Luxury Jewellery",
+  title: "Aurora Jewel Studio | Handcrafted Silver & Panchadhatu Jewellery",
+  description: "Exquisite handcrafted jewellery from Nepal. Specialized in bespoke designs, silver, and traditional Panchadhatu pieces.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

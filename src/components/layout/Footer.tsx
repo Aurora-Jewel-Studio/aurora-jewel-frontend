@@ -40,6 +40,11 @@ export const Footer = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/about" className="hover:text-[var(--color-brand-accent)] transition-colors text-sm">
+                  About Us
+                </Link>
+              </li>
             </ul>
           </div>
 

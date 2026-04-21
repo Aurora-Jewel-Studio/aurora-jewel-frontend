@@ -115,7 +115,7 @@ input[type="radio"] {
 .ring-showcase__bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 50%, #0d1a14 0%, #050a08 40%, #000000 100%);
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, #ffffff 0%, #f4f0eb 100%);
   z-index: 0;
 }
 
@@ -156,21 +156,40 @@ input[type="radio"] {
 /* Text overlay */
 .ring-showcase__content {
   position: relative;
-  z-index: 10;
+  z-index: 10; /* Bring it to front since it's on the sides now */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1600px;
+  padding: 0 4rem;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+.ring-showcase__side {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 1.5rem;
-  pointer-events: none;
   gap: 1.5rem;
-  margin-top: 32vh;
+  max-width: 400px;
+}
+
+.ring-showcase__side--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.ring-showcase__side--right {
+  align-items: flex-end;
+  text-align: right;
+  margin-top: 8rem; /* Stagger it down slightly for visual flair */
 }
 
 .ring-showcase__text-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 0.75rem;
 }
 
@@ -188,13 +207,14 @@ input[type="radio"] {
   font-family: var(--font-serif);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   line-height: 1.1;
-  color: #F5F0EB;
-  font-weight: 400;
+  color: #1A1A1A;
+  font-weight: 700; /* Made text bold */
+  text-transform: uppercase;
 }
 
 .ring-showcase__title-accent {
   font-style: italic;
-  font-weight: 300;
+  font-weight: 600; /* Bolder accent */
   background: linear-gradient(135deg, #C9A84C 0%, #E8D5A3 50%, #C9A84C 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -203,11 +223,12 @@ input[type="radio"] {
 
 .ring-showcase__subtitle {
   font-family: var(--font-sans);
-  font-size: clamp(0.9rem, 1.5vw, 1.15rem);
-  color: rgba(245, 240, 235, 0.55);
-  max-width: 480px;
+  font-size: clamp(0.9rem, 1vw, 1.15rem);
+  color: #333333; 
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400; 
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .ring-showcase__cta {
@@ -296,7 +317,7 @@ input[type="radio"] {
 .ring-showcase__loader-text {
   font-family: var(--font-sans);
   font-size: 0.75rem;
-  color: rgba(245, 240, 235, 0.4);
+  color: rgba(26, 26, 26, 0.4);
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
@@ -306,9 +327,26 @@ input[type="radio"] {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .ring-showcase__content {
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: 10vh 2rem;
+  }
+  
+  .ring-showcase__side {
+    max-width: 100%;
+  }
+
+  .ring-showcase__side--right {
+    margin-top: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .ring-showcase__content {
-    margin-top: 40vh;
+    padding: 15vh 1.5rem;
   }
 
   .ring-showcase__deco {

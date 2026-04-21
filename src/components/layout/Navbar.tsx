@@ -83,6 +83,12 @@ export const Navbar = () => {
             <Link href="/collections/all" className="hover:text-[var(--color-brand-accent)] transition-colors">
               Collections
             </Link>
+            <Link href="/about" className="hover:text-[var(--color-brand-accent)] transition-colors">
+              About
+            </Link>
+            <Link href="/contact" className="hover:text-[var(--color-brand-accent)] transition-colors">
+              Contact
+            </Link>
             <Link href="/bespoke" className="hover:text-[var(--color-brand-accent)] transition-colors">
               Bespoke
             </Link>

@@ -9,8 +9,6 @@ import * as THREE from "three";
 /*  CONFIGURATION                                                      */
 /* ------------------------------------------------------------------ */
 
-// Set this to a path like "/models/ring.glb" to use a custom CAD model
-// When null, the procedural ring is rendered instead.
 const CUSTOM_MODEL_PATH: string | null = "/3d/ring.glb";
 
 /* ------------------------------------------------------------------ */
@@ -29,10 +27,33 @@ const CustomModelRing = ({
   const groupRef = useRef<THREE.Group>(null!);
   const { scene } = useGLTF(modelPath);
 
+  const startColor = useMemo(() => new THREE.Color("#0D8A4E"), []); // Theme Emerald Green
+  const endColor = useMemo(() => new THREE.Color("#d46a84"), []); // Beautiful Pink
+
+  const emeraldMat = useMemo(
+    () =>
+      new THREE.MeshPhysicalMaterial({
+        color: "#0D8A4E",
+        metalness: 0.1,
+        roughness: 0.05,
+        transmission: 0.8,
+        thickness: 0.3,
+        envMapIntensity: 3,
+        clearcoat: 1,
+        clearcoatRoughness: 0,
+        ior: 2.42,
+        emissive: "#0D8A4E",
+        emissiveIntensity: 0.2, // Emit less intense to let pink stand out later
+        transparent: true,
+        opacity: 0.95,
+      }),
+    [],
+  );
+
   const clonedScene = useMemo(() => {
     const clone = scene.clone(true);
-    
-    // Create standard luxury materials
+
+    // Create standard luxury silver material
     const silverMat = new THREE.MeshPhysicalMaterial({
       color: "#C0C0C0",
       metalness: 1,
@@ -43,26 +64,10 @@ const CustomModelRing = ({
       reflectivity: 1,
     });
 
-    const emeraldMat = new THREE.MeshPhysicalMaterial({
-      color: "#0D8A4E",
-      metalness: 0.1,
-      roughness: 0.05,
-      transmission: 0.8,
-      thickness: 0.3,
-      envMapIntensity: 3,
-      clearcoat: 1,
-      clearcoatRoughness: 0,
-      ior: 2.42,
-      emissive: "#0D8A4E",
-      emissiveIntensity: 0.15,
-      transparent: true,
-      opacity: 0.95,
-    });
-
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        // Assign Emerald to "Brillant_1" (the gemstone node)
+        // Assign Emerald/Diamond dynamic material to "Brillant_1" (the gemstone node)
         if (mesh.name.includes("Brillant")) {
           mesh.material = emeraldMat;
         } else {
@@ -72,20 +77,50 @@ const CustomModelRing = ({
       }
     });
     return clone;
-  }, [scene]);
+  }, [scene, emeraldMat]);
 
   useFrame((_, delta) => {
     if (!groupRef.current) return;
-    
-    // Pure scroll-driven rotation (one full 360 spin over the scroll journey)
+
+    // Scale tracking completely managed in 3D WebGL (avoids pixelated DOM zoom)
+    // Scale 1.5 is massive covering the screen, down to 0.3 normal ring size
+    const startScale = 1.6;
+    const endScale = 0.3;
+    // We zoom out rapidly during the first 65% of the scroll journey
+    const scaleProgress = Math.min(1, scrollProgress * 1.5);
+    const currentScale = THREE.MathUtils.lerp(
+      startScale,
+      endScale,
+      scaleProgress,
+    );
+    groupRef.current.scale.set(currentScale, currentScale, currentScale);
+
+    // Initial Y offset to center the top gemstone in the viewport
+    // then slide it back to 0 so the ring sits naturally
+    const startY = -1.4;
+    const endY = 0;
+    const currentY = THREE.MathUtils.lerp(startY, endY, scaleProgress);
+    groupRef.current.position.y +=
+      (currentY - groupRef.current.position.y) * 0.1;
+
+    // Rotate to show the ring from top (gemstone) first, then tilt down perfectly level
+    const targetRotationX = (1 - scaleProgress) * (Math.PI / 2.5) + 0.1;
+    // Standard rotation
     const targetRotationY = scrollProgress * Math.PI * 2;
-    // Smoothly interpolate towards the target scroll rotation
-    groupRef.current.rotation.y += (targetRotationY - groupRef.current.rotation.y) * 0.1;
+
+    groupRef.current.rotation.x +=
+      (targetRotationX - groupRef.current.rotation.x) * 0.1;
+    groupRef.current.rotation.y +=
+      (targetRotationY - groupRef.current.rotation.y) * 0.1;
+
+    // Transition gemstone color from Emerald to Pink evenly over the whole scroll
+    emeraldMat.color.lerpColors(startColor, endColor, scrollProgress);
+    emeraldMat.emissive.lerpColors(startColor, endColor, scrollProgress);
   });
 
   return (
     <group ref={groupRef}>
-      <primitive object={clonedScene} scale={0.3} />
+      <primitive object={clonedScene} />
     </group>
   );
 };
@@ -276,20 +311,8 @@ const RingModel = ({ scrollProgress }: RingModelProps) => {
   useFrame((state, delta) => {
     if (!groupRef.current) return;
 
-    // Base gentle rotation
-    groupRef.current.rotation.y += delta * 0.15;
-
-    // Scroll-driven tilt — ring tilts toward/away from viewer
-    const targetTiltX = -0.3 + scrollProgress * 0.6;
-    groupRef.current.rotation.x +=
-      (targetTiltX - groupRef.current.rotation.x) * 0.05;
-
-    // Scroll-driven extra spin acceleration
-    groupRef.current.rotation.y += scrollProgress * delta * 1.5;
-
-    // Subtle floating
-    groupRef.current.position.y =
-      Math.sin(state.clock.elapsedTime * 0.8) * 0.05;
+    // Remove automatic spinning completely.
+    // The model will now only move when the user scrolls, controlled by CustomModelRing.
   });
 
   return (
@@ -321,22 +344,20 @@ const RingModel = ({ scrollProgress }: RingModelProps) => {
       <Environment preset="studio" environmentIntensity={1.2} />
 
       {/* Ring group */}
-      <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.3}>
-        <group ref={groupRef} rotation={[0.4, 0, 0]} scale={1.3}>
-          {CUSTOM_MODEL_PATH ? (
-            <CustomModelRing
-              scrollProgress={scrollProgress}
-              modelPath={CUSTOM_MODEL_PATH}
-            />
-          ) : (
-            <>
-              <SilverBand />
-              <Gemstone />
-            </>
-          )}
-          <SparkleParticles />
-        </group>
-      </Float>
+      <group ref={groupRef} rotation={[0.4, 0, 0]} scale={1.3}>
+        {CUSTOM_MODEL_PATH ? (
+          <CustomModelRing
+            scrollProgress={scrollProgress}
+            modelPath={CUSTOM_MODEL_PATH}
+          />
+        ) : (
+          <>
+            <SilverBand />
+            <Gemstone />
+          </>
+        )}
+        <SparkleParticles />
+      </group>
     </>
   );
 };
