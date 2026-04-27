@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Uncomment the line below for static HTML export (e.g., Hostinger hosting)
+  // Enable static HTML export for Hostinger (Comment out for Vercel)
   // output: "export",
   images: {
     unoptimized: true,
