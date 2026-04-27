@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { getProductByHandle } from "@/lib/data";
+import { getProductByHandle, getAllProductHandles } from "@/lib/data";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { notFound } from "next/navigation";
 
@@ -11,6 +11,8 @@ interface ProductPageProps {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { handle } = await params;
+  
+  // Await the API call
   const product = await getProductByHandle(handle);
 
   if (!product) {
@@ -19,8 +21,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <main className="min-h-screen flex flex-col">
-      <Navbar />
-      
+      <Navbar darkText={true} />
+
       <section className="pt-28 pb-16 bg-[var(--bg-primary)] flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ProductDetail product={product} />
@@ -30,4 +32,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <Footer />
     </main>
   );
+}
+
+// Pre-render all product pages at build time
+export async function generateStaticParams() {
+  const handles = await getAllProductHandles();
+  return handles.map((handle) => ({ handle }));
 }

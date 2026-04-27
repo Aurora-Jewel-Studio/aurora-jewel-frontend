@@ -21,7 +21,7 @@ const COLLECTION_IMAGES: Record<string, string> = {
 
 export default async function CollectionPage({ params }: CollectionPageProps) {
   const { handle } = await params;
-  
+
   // Find the category info from our constants
   const categoryInfo = CATEGORIES.find(
     (c) => c.id.toLowerCase() === handle.toLowerCase()
@@ -31,22 +31,23 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
     notFound();
   }
 
-  // Fetch products from Medusa by category name
-  const { products, category } = await getProductsByCategory(categoryInfo.name);
+  // We now await the API call
+  const { products } = await getProductsByCategory(categoryInfo.name);
 
   // Determine cover image
-  const coverImage = COLLECTION_IMAGES[categoryInfo.id] || "/images/hero-jewelry.png";
+  const coverImage =
+    COLLECTION_IMAGES[categoryInfo.id] || "/images/hero-jewelry.png";
 
   return (
     <main className="min-h-screen flex flex-col">
       <Navbar />
-      
+
       {/* Immersive Hero Banner */}
       <section className="relative pt-40 pb-24 md:pt-52 md:pb-32 bg-[#011B12] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={coverImage} 
-            alt={categoryInfo.name} 
+          <img
+            src={coverImage}
+            alt={categoryInfo.name}
             className="w-full h-full object-cover opacity-40 mix-blend-overlay"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#011B12]/90 to-transparent" />
@@ -86,7 +87,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
 }
 
 // Generate static params for known categories
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return CATEGORIES.map((cat) => ({
     handle: cat.id,
   }));

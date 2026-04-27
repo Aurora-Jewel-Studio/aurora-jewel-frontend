@@ -43,7 +43,7 @@ export default function AllCollectionsPage() {
       {/* Collections Grid */}
       <section className="py-24 bg-[var(--bg-primary)] flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {CATEGORIES.map((collection, index) => (
               <AnimatedSection
                 key={collection.id}
@@ -52,7 +52,7 @@ export default function AllCollectionsPage() {
               >
                 <Link
                   href={`/collections/${collection.id}`}
-                  className="block overflow-hidden relative aspect-[4/5] md:aspect-[3/4]"
+                  className="block overflow-hidden relative aspect-[4/5] sm:aspect-square"
                 >
                   {/* Background overlay */}
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-500 z-10" />
@@ -70,10 +70,10 @@ export default function AllCollectionsPage() {
                   {/* Content Container */}
                   <div className="absolute inset-0 z-20 flex flex-col justify-end p-8 md:p-12">
                     <div className="translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                      <h2 className="text-white font-serif text-4xl md:text-5xl mb-3">
+                      <h2 className="text-white font-serif text-3xl md:text-4xl mb-2">
                         {collection.name}
                       </h2>
-                      <p className="text-white/90 text-lg font-light mb-6">
+                      <p className="text-white/90 text-base font-light mb-4 line-clamp-2">
                         {collection.description}
                       </p>
 

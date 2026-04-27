@@ -12,7 +12,7 @@ interface ProductGridProps {
 
 export const ProductGrid = ({ products }: ProductGridProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
       {products.map((product, index) => (
         <motion.div
           key={product.id}
@@ -22,7 +22,7 @@ export const ProductGrid = ({ products }: ProductGridProps) => {
         >
           <Link href={`/products/${product.handle}`} className="group block">
             {/* Image */}
-            <div className="relative aspect-square overflow-hidden bg-[var(--bg-secondary)] mb-4">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--bg-secondary)] mb-4">
               <img
                 src={product.thumbnail || product.images?.[0]?.url || "/images/hero-jewelry.png"}
                 alt={product.title}

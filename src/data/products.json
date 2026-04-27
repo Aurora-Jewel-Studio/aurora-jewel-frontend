@@ -1,0 +1,151 @@
+[
+  {
+    "handle": "lunar-cascade-necklace",
+    "title": "Lunar Cascade Necklace",
+    "description": "A breathtaking silver cascade necklace featuring interlocking crescent motifs, hand-polished to a mirror finish. Each arc catches the light differently, creating a mesmerizing waterfall of silver brilliance.",
+    "category": "Drops",
+    "weight": 45,
+    "thumbnail": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800" }
+    ],
+    "options": [
+      { "title": "Material", "values": ["Sterling Silver", "Panchadhatu"] }
+    ],
+    "variants": [
+      {
+        "id": "drops-lc-ss",
+        "title": "Sterling Silver",
+        "sku": "DROPS-LC-SS",
+        "options": { "Material": "Sterling Silver" },
+        "prices": { "npr": 8500, "usd": 65 }
+      },
+      {
+        "id": "drops-lc-pd",
+        "title": "Panchadhatu",
+        "sku": "DROPS-LC-PD",
+        "options": { "Material": "Panchadhatu" },
+        "prices": { "npr": 12000, "usd": 90 }
+      }
+    ]
+  },
+  {
+    "handle": "mystic-weave-bracelet",
+    "title": "Mystic Weave Bracelet",
+    "description": "An intricate woven bracelet combining traditional Nepali knotwork with contemporary design. Features a secure lobster clasp and adjustable chain for the perfect fit.",
+    "category": "Nexus",
+    "weight": 30,
+    "thumbnail": "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800" }
+    ],
+    "options": [
+      { "title": "Material", "values": ["Sterling Silver", "Panchadhatu"] }
+    ],
+    "variants": [
+      {
+        "id": "nexus-mw-ss",
+        "title": "Sterling Silver",
+        "sku": "NEXUS-MW-SS",
+        "options": { "Material": "Sterling Silver" },
+        "prices": { "npr": 6500, "usd": 50 }
+      },
+      {
+        "id": "nexus-mw-pd",
+        "title": "Panchadhatu",
+        "sku": "NEXUS-MW-PD",
+        "options": { "Material": "Panchadhatu" },
+        "prices": { "npr": 9500, "usd": 72 }
+      }
+    ]
+  },
+  {
+    "handle": "aurora-signet-ring",
+    "title": "Aurora Signet Ring",
+    "description": "A bold yet refined signet ring engraved with the Aurora motif. Crafted from solid silver with a satin-matte interior for all-day comfort.",
+    "category": "Essence",
+    "weight": 15,
+    "thumbnail": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800" }
+    ],
+    "options": [
+      { "title": "Size", "values": ["S", "M", "L"] },
+      { "title": "Material", "values": ["Sterling Silver", "Panchadhatu"] }
+    ],
+    "variants": [
+      {
+        "id": "ess-asr-s-ss",
+        "title": "S / Sterling Silver",
+        "sku": "ESS-ASR-S-SS",
+        "options": { "Size": "S", "Material": "Sterling Silver" },
+        "prices": { "npr": 4500, "usd": 35 }
+      },
+      {
+        "id": "ess-asr-m-ss",
+        "title": "M / Sterling Silver",
+        "sku": "ESS-ASR-M-SS",
+        "options": { "Size": "M", "Material": "Sterling Silver" },
+        "prices": { "npr": 4500, "usd": 35 }
+      },
+      {
+        "id": "ess-asr-l-ss",
+        "title": "L / Sterling Silver",
+        "sku": "ESS-ASR-L-SS",
+        "options": { "Size": "L", "Material": "Sterling Silver" },
+        "prices": { "npr": 4500, "usd": 35 }
+      },
+      {
+        "id": "ess-asr-s-pd",
+        "title": "S / Panchadhatu",
+        "sku": "ESS-ASR-S-PD",
+        "options": { "Size": "S", "Material": "Panchadhatu" },
+        "prices": { "npr": 7000, "usd": 53 }
+      },
+      {
+        "id": "ess-asr-m-pd",
+        "title": "M / Panchadhatu",
+        "sku": "ESS-ASR-M-PD",
+        "options": { "Size": "M", "Material": "Panchadhatu" },
+        "prices": { "npr": 7000, "usd": 53 }
+      },
+      {
+        "id": "ess-asr-l-pd",
+        "title": "L / Panchadhatu",
+        "sku": "ESS-ASR-L-PD",
+        "options": { "Size": "L", "Material": "Panchadhatu" },
+        "prices": { "npr": 7000, "usd": 53 }
+      }
+    ]
+  },
+  {
+    "handle": "celestial-drop-earrings",
+    "title": "Celestial Drop Earrings",
+    "description": "Elegant drop earrings inspired by celestial constellations. Each piece features a delicate chain with a star-burst pendant that sways with movement.",
+    "category": "Sparkles",
+    "weight": 10,
+    "thumbnail": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800" }
+    ],
+    "options": [
+      { "title": "Material", "values": ["Sterling Silver", "Panchadhatu"] }
+    ],
+    "variants": [
+      {
+        "id": "sparkle-cde-ss",
+        "title": "Sterling Silver",
+        "sku": "SPARKLE-CDE-SS",
+        "options": { "Material": "Sterling Silver" },
+        "prices": { "npr": 5500, "usd": 42 }
+      },
+      {
+        "id": "sparkle-cde-pd",
+        "title": "Panchadhatu",
+        "sku": "SPARKLE-CDE-PD",
+        "options": { "Material": "Panchadhatu" },
+        "prices": { "npr": 8500, "usd": 65 }
+      }
+    ]
+  }
+]

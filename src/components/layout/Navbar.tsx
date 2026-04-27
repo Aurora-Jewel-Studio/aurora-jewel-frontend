@@ -10,7 +10,11 @@ import { MobileMenu } from "./MobileMenu";
 import { CartDrawer } from "./CartDrawer";
 import { STORE_NAME } from "@/lib/constants";
 
-export const Navbar = () => {
+interface NavbarProps {
+  darkText?: boolean;
+}
+
+export const Navbar = ({ darkText = false }: NavbarProps = {}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
@@ -26,7 +30,7 @@ export const Navbar = () => {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    
+
     // Glass effect trigger
     if (latest > 50) {
       setIsScrolled(true);
@@ -43,6 +47,8 @@ export const Navbar = () => {
     }
   });
 
+  const isDarkTheme = darkText || isScrolled;
+
   return (
     <>
       <motion.header
@@ -54,7 +60,10 @@ export const Navbar = () => {
         transition={{ duration: 0.35, ease: "easeInOut" }}
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-colors duration-300",
-          isScrolled ? "glass shadow-sm" : "bg-transparent text-white dark:text-white"
+          isScrolled
+            ? "glass shadow-sm"
+            : "bg-transparent",
+          isDarkTheme ? "text-[var(--color-brand-primary)]" : "text-white dark:text-white"
         )}
       >
         {/* Optional top announcement bar 
@@ -66,7 +75,7 @@ export const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Mobile Menu Toggle */}
           <div className="flex-1 md:hidden flex items-center">
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 -ml-2"
               aria-label="Toggle Menu"
@@ -76,52 +85,75 @@ export const Navbar = () => {
           </div>
 
           {/* Desktop Navigation Left */}
-          <nav className={cn(
-            "hidden md:flex flex-1 gap-8 text-sm uppercase tracking-widest font-medium transition-colors",
-            isScrolled ? "text-[var(--color-brand-primary)]" : "text-white"
-          )}>
-            <Link href="/collections/all" className="hover:text-[var(--color-brand-accent)] transition-colors">
+          <nav
+            className={cn(
+              "hidden md:flex flex-1 gap-8 text-sm uppercase tracking-widest font-medium transition-colors",
+              isDarkTheme ? "text-[var(--color-brand-primary)]" : "text-white",
+            )}
+          >
+            <Link
+              href="/collections/all"
+              className="hover:text-[var(--color-brand-accent)] transition-colors"
+            >
               Collections
             </Link>
-            <Link href="/about" className="hover:text-[var(--color-brand-accent)] transition-colors">
+            <Link
+              href="/about"
+              className="hover:text-[var(--color-brand-accent)] transition-colors"
+            >
               About
             </Link>
-            <Link href="/contact" className="hover:text-[var(--color-brand-accent)] transition-colors">
+            {/* <Link href="/contact" className="hover:text-[var(--color-brand-accent)] transition-colors">
               Contact
-            </Link>
-            <Link href="/bespoke" className="hover:text-[var(--color-brand-accent)] transition-colors">
+            </Link> */}
+            <Link
+              href="/bespoke"
+              className="hover:text-[var(--color-brand-accent)] transition-colors"
+            >
               Bespoke
             </Link>
           </nav>
 
           {/* Center Logo */}
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             onClick={handleLogoClick}
             className="flex-shrink-0 flex items-center justify-center relative h-16 w-32 translate-y-[-2px]"
           >
-            <img 
-              key={isScrolled ? "scrolled-logo" : "top-logo"}
-              src={isScrolled ? "/images/logo-green-transparent.png" : "/images/logo-white-transparent.png"} 
-              alt={STORE_NAME} 
+            <img
+              key={isDarkTheme ? "scrolled-logo" : "top-logo"}
+              src={
+                isDarkTheme
+                  ? "/images/logo-green-transparent.png"
+                  : "/images/logo-white-transparent.png"
+              }
+              alt={STORE_NAME}
               className="h-full w-full object-contain transition-all duration-500"
             />
           </Link>
 
           {/* Desktop/Mobile Navigation Right */}
-          <div className={cn(
-            "flex-1 flex items-center justify-end gap-4 md:gap-6 transition-colors",
-            isScrolled ? "text-[var(--color-brand-primary)]" : "text-white"
-          )}>
-            <button aria-label="Search" className="hover:text-[var(--color-brand-accent)] transition-colors hidden sm:block">
+          <div
+            className={cn(
+              "flex-1 flex items-center justify-end gap-4 md:gap-6 transition-colors",
+              isDarkTheme ? "text-[var(--color-brand-primary)]" : "text-white",
+            )}
+          >
+            <button
+              aria-label="Search"
+              className="hover:text-[var(--color-brand-accent)] transition-colors hidden sm:block"
+            >
               <Search className="w-5 h-5" />
             </button>
-            <button aria-label="Account" className="hover:text-[var(--color-brand-accent)] transition-colors hidden md:block">
+            <button
+              aria-label="Account"
+              className="hover:text-[var(--color-brand-accent)] transition-colors hidden md:block"
+            >
               <User className="w-5 h-5" />
             </button>
-            <button 
+            <button
               onClick={() => setIsCartOpen(true)}
-              aria-label="Cart" 
+              aria-label="Cart"
               className="relative hover:text-[var(--color-brand-accent)] transition-colors"
             >
               <ShoppingBag className="w-5 h-5 md:w-6 md:h-6" />

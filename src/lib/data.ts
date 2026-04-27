@@ -1,76 +1,132 @@
-import { sdk } from "./medusa-client";
+import productsData from "@/data/products.json";
+import categoriesData from "@/data/categories.json";
 
-// Fetch all products from Medusa
-export async function getProducts(limit = 20) {
+// ---------- Product Types ----------
+export interface ProductVariant {
+  id: string;
+  title: string;
+  sku: string;
+  options: Record<string, string>;
+  prices: Record<string, number>;
+}
+
+export interface ProductOption {
+  title: string;
+  values: string[];
+}
+
+export interface ProductImage {
+  url: string;
+}
+
+export interface Product {
+  handle: string;
+  title: string;
+  description: string;
+  category: string;
+  weight: number;
+  thumbnail: string;
+  images: ProductImage[];
+  options: ProductOption[];
+  variants: ProductVariant[];
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+}
+
+// ---------- Data Access ----------
+
+const categories: Category[] = categoriesData as Category[];
+
+// Helper to get base API URL
+function getApiUrl() {
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+}
+
+export async function getProducts(limit = 20): Promise<Product[]> {
   try {
-    const { products } = await sdk.store.product.list({
-      limit,
-      fields: "id,title,handle,thumbnail,description,variants,variants.prices,images,categories",
-    });
-    return products;
+    const res = await fetch(`${getApiUrl()}/api/products`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    // The DB returns category_handle instead of category, map it
+    return data.products.slice(0, limit).map((p: any) => ({
+      ...p,
+      category: p.category_handle
+    }));
   } catch (error) {
     console.error("Failed to fetch products:", error);
     return [];
   }
 }
 
-// Fetch a single product by handle
-export async function getProductByHandle(handle: string) {
+export async function getProductByHandle(handle: string): Promise<Product | null> {
   try {
-    const { products } = await sdk.store.product.list({
-      handle,
-      fields: "+variants,+variants.prices,+images,+categories,+options,+options.values",
-    });
-    return products?.[0] || null;
+    const res = await fetch(`${getApiUrl()}/api/products/${handle}`);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return {
+      ...data.product,
+      category: data.product.category_handle
+    };
   } catch (error) {
-    console.error("Failed to fetch product:", error);
+    console.error("Failed to fetch product by handle:", error);
     return null;
   }
 }
 
-// Fetch products by category name
-export async function getProductsByCategory(categoryName: string, limit = 20) {
+export async function getProductsByCategory(categoryName: string): Promise<{
+  products: Product[];
+  category: Category | null;
+}> {
+  const category =
+    categories.find(
+      (c) => c.name.toLowerCase() === categoryName.toLowerCase()
+    ) || null;
+
   try {
-    // First, get the category by name
-    const { product_categories } = await sdk.store.category.list({
-      q: categoryName,
-      fields: "id,name,description",
-    });
+    const res = await fetch(`${getApiUrl()}/api/products`);
+    if (!res.ok) return { products: [], category };
+    const data = await res.json();
     
-    const category = product_categories?.find(
-      (c: any) => c.name.toLowerCase() === categoryName.toLowerCase()
-    );
+    const filtered = data.products
+      .filter((p: any) => p.category_handle.toLowerCase() === categoryName.toLowerCase())
+      .map((p: any) => ({
+        ...p,
+        category: p.category_handle
+      }));
 
-    if (!category) return { products: [], category: null };
-
-    const { products } = await sdk.store.product.list({
-      category_id: [category.id],
-      limit,
-      fields: "id,title,handle,thumbnail,description,variants,variants.prices,images,categories",
-    });
-
-    return { products, category };
+    return { products: filtered, category };
   } catch (error) {
     console.error("Failed to fetch products by category:", error);
-    return { products: [], category: null };
+    return { products: [], category };
   }
 }
 
-// Fetch all categories
-export async function getCategories() {
+export function getCategories(): Category[] {
+  return categories;
+}
+
+export async function getAllProductHandles(): Promise<string[]> {
   try {
-    const { product_categories } = await sdk.store.category.list({
-      fields: "id,name,description",
-    });
-    return product_categories;
+    const res = await fetch(`${getApiUrl()}/api/products`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.products.map((p: any) => p.handle);
   } catch (error) {
-    console.error("Failed to fetch categories:", error);
+    console.error("Failed to fetch all product handles:", error);
     return [];
   }
 }
 
-// Format price from Medusa (amounts are in smallest unit)
-export function formatPrice(amount: number, currencyCode: string = "npr") {
+// ---------- Price Utilities ----------
+
+export function formatPrice(
+  amount: number,
+  currencyCode: string = "npr"
+): string {
   return new Intl.NumberFormat("en-NP", {
     style: "currency",
     currency: currencyCode.toUpperCase(),
@@ -79,12 +135,13 @@ export function formatPrice(amount: number, currencyCode: string = "npr") {
   }).format(amount);
 }
 
-// Get the cheapest price from a product's variants
-export function getCheapestPrice(product: any, currencyCode: string = "npr") {
+export function getCheapestPrice(
+  product: Product,
+  currencyCode: string = "npr"
+): number | null {
   const prices = product.variants
-    ?.flatMap((v: any) => v.prices || [])
-    ?.filter((p: any) => p.currency_code === currencyCode)
-    ?.map((p: any) => p.amount) || [];
+    .map((v) => v.prices[currencyCode])
+    .filter((p) => p !== undefined);
 
   if (prices.length === 0) return null;
   return Math.min(...prices);

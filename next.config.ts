@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Uncomment the line below for static HTML export (e.g., Hostinger hosting)
+  // output: "export",
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

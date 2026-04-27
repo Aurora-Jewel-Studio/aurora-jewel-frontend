@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@medusajs/js-sdk": "^2.13.6",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.0",
     "clsx": "^2.1.1",
@@ -18,6 +17,7 @@
     "next": "16.2.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "recharts": "^3.8.1",
     "tailwind-merge": "^3.5.0",
     "three": "^0.184.0"
   },

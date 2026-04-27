@@ -32,7 +32,7 @@ export default function BespokePage() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_MEDUSA_URL}/store/bespoke`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/bespoke`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export default function BespokePage() {
                   Thank you for your interest in Aurora Bespoke. Our lead artisan will review your design requirements and contact you within 2-3 business days to arrange an initial consultation.
                 </p>
                 <Button 
-                  variant="secondary" 
+                  variant="primary" 
                   onClick={() => setStatus("idle")}
                 >
                   Submit Another Request
