@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, ShoppingBag, ChevronLeft, ChevronRight, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { formatPrice } from "@/lib/data";
+import { formatPrice, getCheapestPrice } from "@/lib/data";
 import type { Product } from "@/lib/data";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
@@ -45,6 +45,10 @@ const AccordionItem = ({ title, defaultOpen = false, children }: { title: string
   );
 };
 
+interface ProductDetailProps {
+  product: Product;
+}
+
 export const ProductDetail = ({ product }: ProductDetailProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -66,7 +70,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     }) || product.variants?.[0];
 
   // Get NPR price for selected variant
-  let price = selectedVariant?.prices?.npr ?? product.price;
+  let price = selectedVariant?.prices?.npr ?? getCheapestPrice(product) ?? 0;
 
   // Enforce Panchadhatu price as 60% of Silver price
   if (selectedOptions["Material"] === "Panchadhatu") {
@@ -75,7 +79,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
         v.options?.["Material"] === "Silver" ||
         v.options?.["Material"] === "Sterling Silver"
     );
-    const baseSilverPrice = silverVariant?.prices?.npr ?? product.price;
+    const baseSilverPrice = silverVariant?.prices?.npr ?? getCheapestPrice(product) ?? 0;
     price = baseSilverPrice * 0.6;
   }
 
