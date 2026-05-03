@@ -24,7 +24,9 @@ export interface Product {
   title: string;
   description: string;
   category: string;
-  weight: number;
+  price: number;
+  weight?: number;
+  features?: Record<string, string>;
   thumbnail: string;
   images: ProductImage[];
   options: ProductOption[];

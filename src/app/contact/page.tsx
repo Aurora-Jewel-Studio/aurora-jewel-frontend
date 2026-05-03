@@ -96,7 +96,7 @@ export default function ContactPage() {
                   </h3>
                   <p className="text-[var(--text-secondary)] mb-1">
                     <a
-                      href="mailto:concierge@aurorajewel.com"
+                      href="mailto:concierge@aurorajewelstudio.com"
                       className="hover:text-[var(--color-brand-accent)] transition-colors border-b border-transparent hover:border-[var(--color-brand-accent)] pb-1"
                     >
                       contact@aurorajewelstudio.com

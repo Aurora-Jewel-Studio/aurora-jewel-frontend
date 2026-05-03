@@ -6,6 +6,8 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { CATEGORIES } from "@/lib/constants";
 import { notFound } from "next/navigation";
 
+import { Metadata } from "next";
+
 interface CollectionPageProps {
   params: Promise<{ handle: string }>;
 }
@@ -18,6 +20,52 @@ const COLLECTION_IMAGES: Record<string, string> = {
   radiance: "/images/collection_radiance.png",
   emblem: "/images/collection_emblem.png",
 };
+
+export async function generateMetadata({ params }: CollectionPageProps): Promise<Metadata> {
+  const { handle } = await params;
+  
+  if (handle === "all") {
+    return {
+      title: "All Collections | Aurora Jewel Studio",
+      description: "Explore all our handcrafted jewelry collections. Rings, necklaces, bracelets, and earrings.",
+    };
+  }
+
+  const category = CATEGORIES.find(
+    (c) => c.id.toLowerCase() === handle.toLowerCase()
+  );
+
+  if (!category) {
+    return { title: "Collection Not Found" };
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aurorajewelstudio.com";
+  const image = COLLECTION_IMAGES[category.id] || "/images/hero-jewelry.png";
+
+  return {
+    title: `${category.name} Collection`,
+    description: category.description,
+    openGraph: {
+      title: `${category.name} Collection | Aurora Jewel Studio`,
+      description: category.description,
+      url: `${siteUrl}/collections/${handle}`,
+      images: [
+        {
+          url: image.startsWith("http") ? image : `${siteUrl}${image}`,
+          width: 1200,
+          height: 630,
+          alt: `${category.name} Collection`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${category.name} Collection | Aurora Jewel Studio`,
+      description: category.description,
+      images: [image.startsWith("http") ? image : `${siteUrl}${image}`],
+    },
+  };
+}
 
 export default async function CollectionPage({ params }: CollectionPageProps) {
   const { handle } = await params;

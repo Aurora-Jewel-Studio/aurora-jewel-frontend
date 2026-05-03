@@ -256,34 +256,21 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
           {/* Key Features */}
           <AccordionItem title="Key Features" defaultOpen={true}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Stone</span>
-                <span className="font-medium text-gray-900">Green Onyx</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Type</span>
-                <span className="font-medium text-gray-900">Simulated Stone</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Stone 2</span>
-                <span className="font-medium text-gray-900">Moissanite</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Type 2</span>
-                <span className="font-medium text-gray-900">Simulated Stone</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Color</span>
-                <span className="font-medium text-gray-900">Green</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Chain length</span>
-                <span className="font-medium text-gray-900">17" (customizable)</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2 md:col-span-2">
-                <span className="text-gray-500 uppercase tracking-wider text-xs">Silver weight</span>
-                <span className="font-medium text-gray-900">12.410 gm</span>
-              </div>
+              {product.features && Object.entries(product.features).map(([key, value]) => (
+                <div key={key} className="flex justify-between border-b border-gray-100 pb-2">
+                  <span className="text-gray-500 uppercase tracking-wider text-xs">{key}</span>
+                  <span className="font-medium text-gray-900">{String(value)}</span>
+                </div>
+              ))}
+              {product.weight !== undefined && product.weight !== null && (
+                <div className="flex justify-between border-b border-gray-100 pb-2 md:col-span-2">
+                  <span className="text-gray-500 uppercase tracking-wider text-xs">Weight</span>
+                  <span className="font-medium text-gray-900">{product.weight} gm</span>
+                </div>
+              )}
+              {(!product.features || Object.keys(product.features).length === 0) && product.weight == null && (
+                <div className="text-gray-500 text-xs italic py-2">No additional features listed.</div>
+              )}
             </div>
           </AccordionItem>
 

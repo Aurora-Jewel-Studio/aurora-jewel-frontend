@@ -16,10 +16,16 @@ export default function BespokePage() {
     description: "",
   });
 
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -32,13 +38,16 @@ export default function BespokePage() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/bespoke`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"}/api/bespoke`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -68,9 +77,9 @@ export default function BespokePage() {
       {/* Hero Banner */}
       <section className="relative pt-40 pb-24 md:pt-52 md:pb-32 bg-[#011B12] text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1599643477877-508b9ec0e722?w=1600" 
-            alt="Bespoke Jewelry Process" 
+          <img
+            src="https://images.unsplash.com/photo-1599643477877-508b9ec0e722?w=1600"
+            alt="Bespoke Jewelry Process"
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#011B12] to-transparent" />
@@ -85,7 +94,9 @@ export default function BespokePage() {
               Aurora Bespoke
             </h1>
             <p className="text-lg opacity-80 max-w-2xl mx-auto font-light">
-              Transform your vision into a timeless masterpiece. Our master artisans in Nepal will work closely with you to design and handcraft a piece that is uniquely yours.
+              Transform your vision into a timeless masterpiece. Our master
+              artisans in Nepal will work closely with you to design and
+              handcraft a piece that is uniquely yours.
             </p>
           </AnimatedSection>
         </div>
@@ -97,14 +108,15 @@ export default function BespokePage() {
           {status === "success" ? (
             <AnimatedSection>
               <div className="text-center p-12 border border-[var(--color-brand-accent)] bg-green-50/50 dark:bg-green-900/10 rounded-lg">
-                <h2 className="font-serif text-3xl mb-4 text-[var(--color-brand-primary)]">Request Received</h2>
+                <h2 className="font-serif text-3xl mb-4 text-[var(--color-brand-primary)]">
+                  Request Received
+                </h2>
                 <p className="text-[var(--text-secondary)] mb-8">
-                  Thank you for your interest in Aurora Bespoke. Our lead artisan will review your design requirements and contact you within 2-3 business days to arrange an initial consultation.
+                  Thank you for your interest in Aurora Bespoke. Our lead
+                  artisan will review your design requirements and contact you
+                  within 2-3 business days to arrange an initial consultation.
                 </p>
-                <Button 
-                  variant="primary" 
-                  onClick={() => setStatus("idle")}
-                >
+                <Button variant="primary" onClick={() => setStatus("idle")}>
                   Submit Another Request
                 </Button>
               </div>
@@ -112,15 +124,25 @@ export default function BespokePage() {
           ) : (
             <AnimatedSection>
               <div className="text-center mb-12">
-                <h2 className="font-serif text-3xl md:text-4xl mb-4">Start Your Journey</h2>
-                <p className="text-[var(--text-secondary)]">Please provide us with some details about the piece you wish to commission.</p>
+                <h2 className="font-serif text-3xl md:text-4xl mb-4">
+                  Start Your Journey
+                </h2>
+                <p className="text-[var(--text-secondary)]">
+                  Please provide us with some details about the piece you wish
+                  to commission.
+                </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* First Name */}
                   <div className="space-y-2">
-                    <label htmlFor="first_name" className="text-sm font-medium tracking-wide uppercase">First Name *</label>
+                    <label
+                      htmlFor="first_name"
+                      className="text-sm font-medium tracking-wide uppercase"
+                    >
+                      First Name *
+                    </label>
                     <input
                       type="text"
                       id="first_name"
@@ -133,7 +155,12 @@ export default function BespokePage() {
                   </div>
                   {/* Last Name */}
                   <div className="space-y-2">
-                    <label htmlFor="last_name" className="text-sm font-medium tracking-wide uppercase">Last Name *</label>
+                    <label
+                      htmlFor="last_name"
+                      className="text-sm font-medium tracking-wide uppercase"
+                    >
+                      Last Name *
+                    </label>
                     <input
                       type="text"
                       id="last_name"
@@ -149,7 +176,12 @@ export default function BespokePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Email */}
                   <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium tracking-wide uppercase">Email Address *</label>
+                    <label
+                      htmlFor="email"
+                      className="text-sm font-medium tracking-wide uppercase"
+                    >
+                      Email Address *
+                    </label>
                     <input
                       type="email"
                       id="email"
@@ -162,7 +194,12 @@ export default function BespokePage() {
                   </div>
                   {/* Phone */}
                   <div className="space-y-2">
-                    <label htmlFor="phone" className="text-sm font-medium tracking-wide uppercase">Phone Number</label>
+                    <label
+                      htmlFor="phone"
+                      className="text-sm font-medium tracking-wide uppercase"
+                    >
+                      Phone Number
+                    </label>
                     <input
                       type="tel"
                       id="phone"
@@ -176,7 +213,12 @@ export default function BespokePage() {
 
                 {/* Budget */}
                 <div className="space-y-2">
-                  <label htmlFor="budget" className="text-sm font-medium tracking-wide uppercase">Estimated Budget (NPR)</label>
+                  <label
+                    htmlFor="budget"
+                    className="text-sm font-medium tracking-wide uppercase"
+                  >
+                    Estimated Budget (NPR)
+                  </label>
                   <select
                     id="budget"
                     name="budget"
@@ -184,17 +226,41 @@ export default function BespokePage() {
                     onChange={handleChange}
                     className="w-full p-4 border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-[var(--color-brand-accent)] focus:border-transparent transition-all outline-none appearance-none"
                   >
-                    <option value="" className="bg-[var(--bg-primary)]">Select a range</option>
-                    <option value="50K - 100K" className="bg-[var(--bg-primary)]">NPR 50,000 - 100,000</option>
-                    <option value="100K - 300K" className="bg-[var(--bg-primary)]">NPR 100,000 - 300,000</option>
-                    <option value="300K - 500K" className="bg-[var(--bg-primary)]">NPR 300,000 - 500,000</option>
-                    <option value="500K+" className="bg-[var(--bg-primary)]">NPR 500,000+</option>
+                    <option value="" className="bg-[var(--bg-primary)]">
+                      Select a range
+                    </option>
+                    <option
+                      value="50K - 100K"
+                      className="bg-[var(--bg-primary)]"
+                    >
+                      NPR 50,000 - 100,000
+                    </option>
+                    <option
+                      value="100K - 300K"
+                      className="bg-[var(--bg-primary)]"
+                    >
+                      NPR 100,000 - 300,000
+                    </option>
+                    <option
+                      value="300K - 500K"
+                      className="bg-[var(--bg-primary)]"
+                    >
+                      NPR 300,000 - 500,000
+                    </option>
+                    <option value="500K+" className="bg-[var(--bg-primary)]">
+                      NPR 500,000+
+                    </option>
                   </select>
                 </div>
 
                 {/* Description */}
                 <div className="space-y-2">
-                  <label htmlFor="description" className="text-sm font-medium tracking-wide uppercase">Design Vision *</label>
+                  <label
+                    htmlFor="description"
+                    className="text-sm font-medium tracking-wide uppercase"
+                  >
+                    Design Vision *
+                  </label>
                   <textarea
                     id="description"
                     name="description"
@@ -213,10 +279,10 @@ export default function BespokePage() {
                   </div>
                 )}
 
-                <Button 
-                  type="submit" 
-                  variant="primary" 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
                   className="w-full tracking-widest uppercase"
                   isLoading={status === "submitting"}
                 >

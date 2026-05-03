@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable static HTML export for Hostinger (Comment out for Vercel)
-  // output: "export",
+  // Static HTML export for Hostinger (Comment out for Vercel deployment)
+  output: "export",
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  trailingSlash: true,
 };
 
 export default nextConfig;

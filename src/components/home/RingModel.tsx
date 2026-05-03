@@ -27,25 +27,25 @@ const CustomModelRing = ({
   const groupRef = useRef<THREE.Group>(null!);
   const { scene } = useGLTF(modelPath);
 
-  const startColor = useMemo(() => new THREE.Color("#0D8A4E"), []); // Theme Emerald Green
-  const endColor = useMemo(() => new THREE.Color("#d46a84"), []); // Beautiful Pink
+  const startColor = useMemo(() => new THREE.Color("#043b26"), []); // Aurora Deep Green
+  const endColor = useMemo(() => new THREE.Color("#043b26"), []); // Same — solid green, no transition
 
   const emeraldMat = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: "#0D8A4E",
-        metalness: 0.1,
-        roughness: 0.05,
-        transmission: 0.8,
-        thickness: 0.3,
-        envMapIntensity: 3,
+        color: "#043b26",
+        metalness: 0.05,
+        roughness: 0.02,
+        transmission: 0.85,
+        thickness: 0.5,
+        envMapIntensity: 4,
         clearcoat: 1,
         clearcoatRoughness: 0,
         ior: 2.42,
         emissive: "#0D8A4E",
-        emissiveIntensity: 0.2, // Emit less intense to let pink stand out later
+        emissiveIntensity: 0.4,
         transparent: true,
-        opacity: 0.95,
+        opacity: 1,
       }),
     [],
   );
@@ -53,15 +53,15 @@ const CustomModelRing = ({
   const clonedScene = useMemo(() => {
     const clone = scene.clone(true);
 
-    // Create standard luxury silver material
+    // Sterling silver material — realistic metal with soft highlights
     const silverMat = new THREE.MeshPhysicalMaterial({
-      color: "#C0C0C0",
-      metalness: 1,
-      roughness: 0.08,
-      envMapIntensity: 2.5,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.05,
-      reflectivity: 1,
+      color: "#B5B7BB",
+      metalness: 0.95,
+      roughness: 0.05,
+      envMapIntensity: 1.0,
+      clearcoat: 0.3,
+      clearcoatRoughness: 0.15,
+      reflectivity: 0.5,
     });
 
     clone.traverse((child) => {
@@ -113,9 +113,7 @@ const CustomModelRing = ({
     groupRef.current.rotation.y +=
       (targetRotationY - groupRef.current.rotation.y) * 0.1;
 
-    // Transition gemstone color from Emerald to Pink evenly over the whole scroll
-    emeraldMat.color.lerpColors(startColor, endColor, scrollProgress);
-    emeraldMat.emissive.lerpColors(startColor, endColor, scrollProgress);
+    // Gemstone stays solid Aurora deep green — no color transition
   });
 
   return (
@@ -153,13 +151,13 @@ const SilverBand = () => {
   return (
     <mesh ref={meshRef} geometry={geometry} castShadow receiveShadow>
       <meshPhysicalMaterial
-        color="#C0C0C0"
-        metalness={1}
-        roughness={0.08}
-        envMapIntensity={2.5}
-        clearcoat={0.8}
-        clearcoatRoughness={0.05}
-        reflectivity={1}
+        color="#C8C8CE"
+        metalness={0.85}
+        roughness={0.25}
+        envMapIntensity={1.0}
+        clearcoat={0.3}
+        clearcoatRoughness={0.15}
+        reflectivity={0.5}
       />
     </mesh>
   );
@@ -238,10 +236,10 @@ const Gemstone = () => {
           >
             <cylinderGeometry args={[1, 0.5, 1, 8]} />
             <meshPhysicalMaterial
-              color="#C0C0C0"
-              metalness={1}
-              roughness={0.1}
-              envMapIntensity={2}
+              color="#C8C8CE"
+              metalness={0.85}
+              roughness={0.25}
+              envMapIntensity={1.0}
             />
           </mesh>
         );
@@ -317,17 +315,26 @@ const RingModel = ({ scrollProgress }: RingModelProps) => {
 
   return (
     <>
-      {/* Lighting setup */}
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
+      {/* Pure black scene background */}
+      <color attach="background" args={["#000000"]} />
+
+      {/* Lighting setup — boosted for bright silver reflections */}
+      <ambientLight intensity={0.8} />
+      <directionalLight
+        position={[5, 5, 5]}
+        intensity={2}
+        castShadow
+        color="#FFFFFF"
+      />
       <directionalLight
         position={[-3, 3, -5]}
-        intensity={0.6}
-        color="#C9A84C"
+        intensity={1.2}
+        color="#E8F0FF"
       />
+      <directionalLight position={[0, -3, 5]} intensity={0.8} color="#FFFFFF" />
       <spotLight
         position={[0, 5, 0]}
-        intensity={0.8}
+        intensity={1.5}
         angle={0.5}
         penumbra={1}
         color="#ffffff"
@@ -335,13 +342,20 @@ const RingModel = ({ scrollProgress }: RingModelProps) => {
       {/* Emerald accent light */}
       <pointLight
         position={[0, 1, -1]}
-        intensity={0.5}
+        intensity={0.6}
         color="#1AFF80"
-        distance={3}
+        distance={4}
+      />
+      {/* Rim light from behind for silver edge highlights */}
+      <pointLight
+        position={[0, 0, -3]}
+        intensity={1}
+        color="#FFFFFF"
+        distance={6}
       />
 
-      {/* Environment for realistic reflections */}
-      <Environment preset="studio" environmentIntensity={1.2} />
+      {/* Environment for realistic reflections — boosted intensity */}
+      <Environment preset="studio" environmentIntensity={2.5} />
 
       {/* Ring group */}
       <group ref={groupRef} rotation={[0.4, 0, 0]} scale={1.3}>

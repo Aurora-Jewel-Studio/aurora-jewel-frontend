@@ -103,6 +103,10 @@ export const RingShowcase = () => {
     [0, 0.3, 0.7, 0.5, 0],
   );
 
+  // Parallax transforms — different layers move at different speeds for depth
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const decoY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+
   // Check if client-side (Canvas only renders on client)
   const [isClient, setIsClient] = useState(false);
   useEffect(() => setIsClient(true), []);
@@ -115,18 +119,18 @@ export const RingShowcase = () => {
       style={{ position: "relative" }}
     >
       <div className="ring-showcase__sticky">
-        {/* Background effects */}
+        {/* Background effects with parallax */}
         <div className="ring-showcase__bg" />
         <motion.div
           className="ring-showcase__glow"
-          style={{ opacity: glowOpacity }}
+          style={{ opacity: glowOpacity, y: glowY }}
         />
         <motion.div
           className="ring-showcase__glow ring-showcase__glow--accent"
-          style={{ opacity: glowOpacity }}
+          style={{ opacity: glowOpacity, y: glowY }}
         />
 
-        {/* 3D Canvas */}
+        {/* 3D Canvas — alpha:false so scene background renders */}
         <motion.div
           className="ring-showcase__canvas-wrapper"
           style={{
@@ -140,10 +144,9 @@ export const RingShowcase = () => {
                 dpr={[1, 2]}
                 gl={{
                   antialias: true,
-                  alpha: true,
+                  alpha: false,
                   powerPreference: "high-performance",
                 }}
-                style={{ background: "transparent" }}
               >
                 <RingModel scrollProgress={scrollValue} />
               </Canvas>
@@ -162,7 +165,7 @@ export const RingShowcase = () => {
               <span className="ring-showcase__label">
                 SIGNATURE PIECE - SKIN FRIENDLY
               </span>
-              <h2 className="ring-showcase__title">Crafted with “CARE”</h2>
+              <h2 className="ring-showcase__title">Crafted with {"\u201C"}CARE{"\u201D"}</h2>
             </div>
 
             <motion.p
@@ -204,14 +207,14 @@ export const RingShowcase = () => {
           </motion.div>
         </div>
 
-        {/* Floating decorative lines */}
+        {/* Floating decorative lines with parallax */}
         <motion.div
           className="ring-showcase__deco ring-showcase__deco--left"
-          style={{ opacity: glowOpacity }}
+          style={{ opacity: glowOpacity, y: decoY }}
         />
         <motion.div
           className="ring-showcase__deco ring-showcase__deco--right"
-          style={{ opacity: glowOpacity }}
+          style={{ opacity: glowOpacity, y: decoY }}
         />
       </div>
     </section>

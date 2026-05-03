@@ -111,11 +111,10 @@ input[type="radio"] {
   overflow: hidden;
 }
 
-/* Background */
 .ring-showcase__bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, #ffffff 0%, #f4f0eb 100%);
+  background: #000000;
   z-index: 0;
 }
 
@@ -207,7 +206,7 @@ input[type="radio"] {
   font-family: var(--font-serif);
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   line-height: 1.1;
-  color: #1A1A1A;
+  color: #FFFFFF;
   font-weight: 700; /* Made text bold */
   text-transform: uppercase;
 }
@@ -224,7 +223,7 @@ input[type="radio"] {
 .ring-showcase__subtitle {
   font-family: var(--font-sans);
   font-size: clamp(0.9rem, 1vw, 1.15rem);
-  color: #333333; 
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.7;
   font-weight: 400; 
   text-transform: uppercase;
