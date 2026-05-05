@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
 import { STORE_NAME, CATEGORIES } from "@/lib/constants";
 
 export const Footer = () => {
@@ -26,16 +25,12 @@ export const Footer = () => {
             </p>
             <div className="flex gap-4 text-gray-400">
               <a
-                href="#"
+                href="https://www.instagram.com/aurorajewelstudio"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-[var(--color-brand-accent)] transition-colors text-sm uppercase tracking-wider"
               >
                 Instagram
-              </a>
-              <a
-                href="#"
-                className="hover:text-[var(--color-brand-accent)] transition-colors text-sm uppercase tracking-wider"
-              >
-                Facebook
               </a>
             </div>
           </div>
@@ -94,42 +89,45 @@ export const Footer = () => {
                   href="/shipping"
                   className="hover:text-[var(--color-brand-accent)] transition-colors text-sm"
                 >
-                  Shipping & Returns
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-[var(--color-brand-accent)] transition-colors text-sm"
-                >
-                  Contact Us
+                  Shipping &amp; Returns
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Follow Us / CTA */}
           <div>
             <h3 className="font-sans uppercase tracking-widest text-xs mb-6 text-gray-500">
-              Join the Circle
+              Stay Connected
             </h3>
-            <p className="text-sm text-gray-400 mb-4">
-              Subscribe to receive updates on new collections, exclusive events,
-              and the latest from {STORE_NAME}.
+            <p className="text-sm text-gray-400 mb-5">
+              Follow us on Instagram for new drops, behind-the-scenes craft, and
+              exclusive offers.
             </p>
-            <form className="flex mt-4" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="bg-transparent border-b border-gray-600 px-0 py-2 w-full focus:outline-none focus:border-[var(--color-brand-accent)] transition-colors text-sm rounded-none"
-              />
-              <button
-                type="submit"
-                className="border-b border-gray-600 px-4 py-2 hover:text-[var(--color-brand-accent)] hover:border-[var(--color-brand-accent)] transition-colors whitespace-nowrap text-sm uppercase tracking-widest font-medium"
+            <a
+              href="https://www.instagram.com/aurorajewelstudio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 border border-gray-700 rounded-full px-6 py-3 text-sm uppercase tracking-wider hover:border-[var(--color-brand-accent)] hover:text-[var(--color-brand-accent)] transition-colors group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="group-hover:scale-110 transition-transform"
               >
-                Subscribe
-              </button>
-            </form>
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+              </svg>
+              @aurorajewelstudio
+            </a>
           </div>
         </div>
 

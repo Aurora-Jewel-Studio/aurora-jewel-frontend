@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, ShoppingBag, ChevronLeft, ChevronRight, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { formatPrice, getCheapestPrice } from "@/lib/data";
 import type { Product } from "@/lib/data";
+import { getCheapestPrice } from "@/lib/data";
 import { useCart } from "@/context/CartContext";
+import { useCurrency } from "@/context/CurrencyContext";
 import Link from "next/link";
 
 const AccordionItem = ({ title, defaultOpen = false, children }: { title: string, defaultOpen?: boolean, children: React.ReactNode }) => {
@@ -55,6 +56,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     Record<string, string>
   >({});
   const { addToCart, isAdding } = useCart();
+  const { formatPrice } = useCurrency();
 
   const images = product.images?.length
     ? product.images
@@ -69,8 +71,8 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
       );
     }) || product.variants?.[0];
 
-  // Get NPR price for selected variant
-  let price = selectedVariant?.prices?.npr ?? getCheapestPrice(product) ?? 0;
+  // Get USD price for selected variant
+  let price = selectedVariant?.prices?.usd ?? getCheapestPrice(product, "usd") ?? 0;
 
   // Enforce Panchadhatu price as 60% of Silver price
   if (selectedOptions["Material"] === "Panchadhatu") {
@@ -79,7 +81,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
         v.options?.["Material"] === "Silver" ||
         v.options?.["Material"] === "Sterling Silver"
     );
-    const baseSilverPrice = silverVariant?.prices?.npr ?? getCheapestPrice(product) ?? 0;
+    const baseSilverPrice = silverVariant?.prices?.usd ?? getCheapestPrice(product, "usd") ?? 0;
     price = baseSilverPrice * 0.6;
   }
 
@@ -91,7 +93,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
       title: product.title,
       variantTitle: selectedVariant.title,
       price: price ?? 0,
-      currencyCode: "npr",
+      currencyCode: "usd",
       thumbnail: product.thumbnail,
     });
   };

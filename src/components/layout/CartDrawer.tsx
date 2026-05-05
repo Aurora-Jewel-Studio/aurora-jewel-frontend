@@ -6,7 +6,7 @@ import Link from "next/link";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/Button";
-import { formatPrice } from "@/lib/data";
+import { useCurrency } from "@/context/CurrencyContext";
 
 export const CartDrawer = () => {
   const {
@@ -17,6 +17,7 @@ export const CartDrawer = () => {
     updateQuantity,
     totalAmount,
   } = useCart();
+  const { formatPrice } = useCurrency();
 
   return (
     <AnimatePresence>
@@ -127,8 +128,7 @@ export const CartDrawer = () => {
                           </div>
                           <span className="font-medium">
                             {formatPrice(
-                              item.price * item.quantity,
-                              item.currencyCode
+                              item.price * item.quantity
                             )}
                           </span>
                         </div>

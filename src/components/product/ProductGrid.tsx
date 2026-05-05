@@ -4,13 +4,16 @@ import React from "react";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
-import { formatPrice, getCheapestPrice } from "@/lib/data";
+import { getCheapestPrice } from "@/lib/data";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface ProductGridProps {
   products: any[];
 }
 
 export const ProductGrid = ({ products }: ProductGridProps) => {
+  const { formatPrice } = useCurrency();
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
       {products.map((product, index) => (
@@ -62,7 +65,7 @@ export const ProductGrid = ({ products }: ProductGridProps) => {
                 {product.title}
               </h3>
               {(() => {
-                const price = getCheapestPrice(product);
+                const price = getCheapestPrice(product, "usd");
                 return price !== null ? (
                   <p className="text-sm text-[var(--text-secondary)]">
                     {formatPrice(price)}

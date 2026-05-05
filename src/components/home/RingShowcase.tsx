@@ -114,7 +114,7 @@ export const RingShowcase = () => {
   return (
     <section
       ref={containerRef}
-      className="ring-showcase"
+      className="ring-showcase hidden md:block"
       id="ring-showcase"
       style={{ position: "relative" }}
     >

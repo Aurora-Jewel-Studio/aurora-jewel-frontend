@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, ShoppingBag, Menu, User } from "lucide-react";
+import { Search, ShoppingBag, Menu } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 import { MobileMenu } from "./MobileMenu";
 import { CartDrawer } from "./CartDrawer";
+import { SearchOverlay } from "./SearchOverlay";
+import { CurrencySelector } from "./CurrencySelector";
 import { STORE_NAME } from "@/lib/constants";
 
 interface NavbarProps {
@@ -17,6 +19,7 @@ interface NavbarProps {
 export const Navbar = ({ darkText = false }: NavbarProps = {}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const { scrollY } = useScroll();
   const { totalQuantity, setIsCartOpen } = useCart();
@@ -140,17 +143,15 @@ export const Navbar = ({ darkText = false }: NavbarProps = {}) => {
             )}
           >
             <button
+              onClick={() => setIsSearchOpen(true)}
               aria-label="Search"
               className="hover:text-[var(--color-brand-accent)] transition-colors hidden sm:block"
             >
               <Search className="w-5 h-5" />
             </button>
-            <button
-              aria-label="Account"
-              className="hover:text-[var(--color-brand-accent)] transition-colors hidden md:block"
-            >
-              <User className="w-5 h-5" />
-            </button>
+            <div className="hidden sm:block">
+              <CurrencySelector isDark={isDarkTheme} />
+            </div>
             <button
               onClick={() => setIsCartOpen(true)}
               aria-label="Cart"
@@ -169,6 +170,7 @@ export const Navbar = ({ darkText = false }: NavbarProps = {}) => {
 
       <MobileMenu isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} />
       <CartDrawer />
+      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 };

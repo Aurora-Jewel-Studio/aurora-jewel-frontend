@@ -2,10 +2,9 @@ export const STORE_NAME = "Aurora Jewel Studio";
 
 export const CATEGORIES = [
   { id: "drops", name: "Drops", description: "Necklaces" },
-  { id: "nexus", name: "Nexus", description: "Bracelets" },
   { id: "essence", name: "Essence", description: "Rings" },
+  { id: "nexus", name: "Nexus", description: "Bracelets" },
   { id: "sparkles", name: "Sparkles", description: "Earrings" },
-  { id: "radiance", name: "Radiance", description: "Anklets" },
   { id: "emblem", name: "Emblem", description: "Coat Decoration" },
 ];
 
