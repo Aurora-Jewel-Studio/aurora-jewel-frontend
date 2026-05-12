@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
-import { getCheapestPrice } from "@/lib/data";
+
 import { useCurrency } from "@/context/CurrencyContext";
 
 interface ProductGridProps {
@@ -65,8 +65,13 @@ export const ProductGrid = ({ products }: ProductGridProps) => {
                 {product.title}
               </h3>
               {(() => {
-                const price = getCheapestPrice(product, "usd");
-                return price !== null ? (
+                const silverVariant = product.variants?.find(
+                  (v: any) =>
+                    v.options?.["Material"] === "Silver" ||
+                    v.options?.["Material"] === "Sterling Silver"
+                );
+                const price = silverVariant?.prices?.usd ?? product.price ?? 0;
+                return price > 0 ? (
                   <p className="text-sm text-[var(--text-secondary)]">
                     {formatPrice(price)}
                   </p>

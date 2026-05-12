@@ -113,7 +113,7 @@ export default function AboutPage() {
             >
               <div className="aspect-[4/5] overflow-hidden rounded-sm relative">
                 <img
-                  src="/images/kathmandu-workshop.png"
+                  src="/images/bespoke-crafting.png"
                   alt="Kathmandu Workshop"
                   className="w-full h-full object-cover transition-transform duration-[2s] hover:scale-105"
                 />

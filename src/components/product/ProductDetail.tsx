@@ -52,9 +52,20 @@ interface ProductDetailProps {
 
 export const ProductDetail = ({ product }: ProductDetailProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState<
-    Record<string, string>
-  >({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(() => {
+    const defaults: Record<string, string> = {};
+    if (product.options) {
+      product.options.forEach((opt) => {
+        if (opt.title === "Material") {
+          const silverValue = opt.values.find((v) => v.toLowerCase().includes("silver"));
+          defaults[opt.title] = silverValue || opt.values[0];
+        } else {
+          defaults[opt.title] = opt.values[0];
+        }
+      });
+    }
+    return defaults;
+  });
   const { addToCart, isAdding } = useCart();
   const { formatPrice } = useCurrency();
 
