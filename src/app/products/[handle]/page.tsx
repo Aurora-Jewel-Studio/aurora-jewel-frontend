@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     offers: {
       "@type": "Offer",
       url: `${siteUrl}/products/${product.handle}`,
-      priceCurrency: "NPR",
+      priceCurrency: "USD",
       price: product.price,
       itemCondition: "https://schema.org/NewCondition",
       availability: "https://schema.org/InStock",

@@ -84,6 +84,40 @@ export default function RootLayout({
         <CurrencyProvider>
           <CartProvider>{children}</CartProvider>
         </CurrencyProvider>
+        {/* Global JSON-LD Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": `${siteUrl}/#website`,
+                  url: siteUrl,
+                  name: "Aurora Jewel Studio",
+                  description: "Premium handcrafted jewellery from Nepal.",
+                  publisher: {
+                    "@id": `${siteUrl}/#organization`,
+                  },
+                },
+                {
+                  "@type": "Organization",
+                  "@id": `${siteUrl}/#organization`,
+                  name: "Aurora Jewel Studio",
+                  url: siteUrl,
+                  logo: {
+                    "@type": "ImageObject",
+                    url: `${siteUrl}/android-chrome-512x512.png`,
+                  },
+                  sameAs: [
+                    "https://www.instagram.com/aurorajewelstudio",
+                  ],
+                },
+              ],
+            }),
+          }}
+        />
       </body>
     </html>
   );

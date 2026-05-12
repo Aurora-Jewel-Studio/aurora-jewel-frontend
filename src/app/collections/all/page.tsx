@@ -16,6 +16,13 @@ const COLLECTION_IMAGES: Record<string, string> = {
   emblem: "/images/collection_emblem.png",
 };
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All Collections | Aurora Jewel Studio",
+  description: "Explore our complete range of exquisite silver and panchadhatu jewelry. Handcrafted masterpieces to reflect your inner spark.",
+};
+
 export default function AllCollectionsPage() {
   return (
     <main className="min-h-screen flex flex-col pt-0">
