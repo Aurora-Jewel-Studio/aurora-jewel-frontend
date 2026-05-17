@@ -5,7 +5,7 @@ export const CATEGORIES = [
   { id: "essence", name: "Essence", description: "Rings" },
   { id: "nexus", name: "Nexus", description: "Bracelets" },
   { id: "sparkles", name: "Sparkles", description: "Earrings" },
-  { id: "emblem", name: "Emblem", description: "Coat Decoration" },
+  { id: "emblem", name: "Emblem", description: "Brooch" },
 ];
 
 export const MOCK_PRODUCTS = [

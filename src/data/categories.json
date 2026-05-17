@@ -4,5 +4,5 @@
   { "id": "essence", "name": "Essence", "description": "Rings" },
   { "id": "sparkles", "name": "Sparkles", "description": "Earrings" },
   { "id": "radiance", "name": "Radiance", "description": "Anklets" },
-  { "id": "emblem", "name": "Emblem", "description": "Coat Decoration" }
+  { "id": "emblem", "name": "Emblem", "description": "Brooch" }
 ]
