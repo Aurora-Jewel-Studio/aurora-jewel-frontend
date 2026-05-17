@@ -42,11 +42,15 @@ export const MobileMenu = ({ isOpen, setIsOpen }: MobileMenuProps) => {
             </div>
             
             <div className="border-b border-[var(--border-color)] pb-4">
-              <Link href="/bespoke" onClick={() => setIsOpen(false)} className="block py-2">Bespoke Design</Link>
-            </div>
-            
-            <div className="border-b border-[var(--border-color)] pb-4">
               <Link href="/about" onClick={() => setIsOpen(false)} className="block py-2">About Us</Link>
+            </div>
+
+            <div className="border-b border-[var(--border-color)] pb-4">
+              <Link href="/tattva" onClick={() => setIsOpen(false)} className="block py-2">Tattva</Link>
+            </div>
+
+            <div className="border-b border-[var(--border-color)] pb-4">
+              <Link href="/bespoke" onClick={() => setIsOpen(false)} className="block py-2">Bespoke Design</Link>
             </div>
 
             <div className="border-b border-[var(--border-color)] pb-4">

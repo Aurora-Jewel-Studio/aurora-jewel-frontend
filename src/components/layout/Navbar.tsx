@@ -106,6 +106,12 @@ export const Navbar = ({ darkText = false }: NavbarProps = {}) => {
             >
               About
             </Link>
+            <Link
+              href="/tattva"
+              className="hover:text-[var(--color-brand-accent)] transition-colors"
+            >
+              Tattva
+            </Link>
             {/* <Link href="/contact" className="hover:text-[var(--color-brand-accent)] transition-colors">
               Contact
             </Link> */}
